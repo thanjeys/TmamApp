@@ -1,0 +1,30 @@
+{
+	"code": 0,
+	"message": "success",
+	"chartofaccounts": [
+		{
+			"account_id": "460000000038079",
+			"account_name": "Notes Payable",
+			"account_code": "string",
+			"account_type": "long_term_liability",
+			"is_user_created": true,
+			"is_system_account": true,
+			"is_standalone_account": false,
+			"is_active": true,
+			"can_show_in_ze": false,
+			"is_involved_in_transaction": false,
+			"current_balance": null,
+			"parent_account_id": "460000000009097",
+			"parent_account_name": " ",
+			"depth": "string",
+			"has_attachment": false,
+			"is_child_present": "string",
+			"child_count": "string",
+			"documents": [
+				"string"
+			],
+			"created_time": "2013-01-17T15:27:23+0530",
+			"last_modified_time": "2013-01-17T15:27:23+0530"
+		}
+	]
+}

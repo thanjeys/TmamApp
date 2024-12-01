@@ -1,0 +1,6 @@
+{
+	"ORG_SYNC_SUCCESS": "Organizations synced successfully!",
+	"ORG_SYNC_ERROR": "Organizations sync failed, Try again after some time!",
+	"CHARTOFACCOUNT_SYNC_SUCCESS": "Chart of Accounts synced successfully!",
+	"CHARTOFACCOUNT_SYNC_ERROR": "Chart of Accounts failed, Try again after some time!"
+}
