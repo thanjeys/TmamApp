@@ -85,7 +85,7 @@ export default function Index({ auth, expenses, expenseAccountNames, paidAccount
 										name="account_name"
 										value={data.account_name}
 										onChange={handleFilterChange}
-										className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none"
+										className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none w-64"
 									>
 										<option value="">Select Account</option>
 										{expenseAccountNames.map((accountName, index) => (
@@ -101,7 +101,7 @@ export default function Index({ auth, expenses, expenseAccountNames, paidAccount
 										name="paid_through_account_name"
 										value={data.paid_through_account_name}
 										onChange={handleFilterChange}
-										className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none"
+										className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none w-64"
 									>
 										<option value="">Select Paid Account</option>
 										{paidAccountNames.map((accountName, index) => (

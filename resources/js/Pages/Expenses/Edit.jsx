@@ -6,18 +6,6 @@ import React, { useEffect, useState } from 'react';
 export default function Edot({ auth, expense }) {
 
 	const { flash } = usePage().props;
-	// const [isSyncing, setIsSyncing] = useState(false);
-
-	// const handleSync = () => {
-	// 	if (confirm('Are you sure?')) {
-	// 		setIsSyncing(true);
-	// 		router.post(route('sync.expenses'), {}, {
-	// 			onFinish: () => {
-	// 				setIsSyncing(false)
-	// 			}, // Reset loading state
-	// 		});
-	// 	}
-	// };
 
 	const { data, setData, post, processing, errors } = useForm({
 		expense_id: expense.data.expense_id,
