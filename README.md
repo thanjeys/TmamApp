@@ -16,12 +16,59 @@ Before setting up the project, make sure you have the following software install
 - **Apache Version**: 2.4+ (or an alternative web server like Nginx)
 
 ## Environmental Setup
-### Clone the Repository
-Clone the repository to your local machine:
+### Clone the repository to your local machine:
 ```bash
 git clone https://github.com/thanjeys/TmamApp.git
 cd TmamApp
+### Set Up Laravel (Backend) - Install PHP dependencies using Composer:
+```bash
+composer install
+
 ### Copy the .env.example file to .env:
+```bash
+cp .env.example .env
+###Configure the environment settings in the .env file
+```bash
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=zohosocialite
+DB_USERNAME=root
+DB_PASSWORD=
+###Generate the application key for Laravel
+```bash
+php artisan key:generate
+###Migrate the Database
+```bash
+php artisan migrate
+###Set Up React (Frontend) - Install JavaScript dependencies using npm
+```bash
+npm install
 
+##Set Up Zoho API Integration
+https://www.zoho.com/accounts/protocol/oauth-setup.html
+Create OAuth with ServerBased Application
+Configure Zoho API credentials in the .env file (client ID, client secret, Callback and OAuth tokens).
+Ensure that the Zoho API SDK (or Guzzle HTTP client) is set up correctly in the backend to interact with Zoho services.
+.env file
+```bash
+ZOHO_CLIENT_ID="1000.R9XAGNKGVXXXXXXX"
+ZOHO_CLIENT_SECRET="XXXXXXXXX5071307579019"
+ZOHO_REDIRECT_URI="http://127.0.0.1:8000/auth/zoho/callback"
+ZOHO_API_ENDPOINT="https://www.zohoapis.com/books/v3/"
+QUEUE_CONNECTION="database"
 
+##Test the Application
+Run the Laravel Development Server
+```bash
+php artisan serve
+Run the Laravel Development Server
+```bash
+npm run dev
+Run Queue Worker (while Expense & Contacts Syncing)
+```bash
+php artisan queue:work
+
+Open your browser and navigate to http://127.0.0.1:8000/ to access the application.
+Ensure that both the backend and frontend are working as expected, including the Zoho API integration.
  
