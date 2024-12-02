@@ -1,7 +1,7 @@
 # TmamApp
  A Laravel and React.js-based application integrating Zoho to manage expenses with multi-currency support. Enables authentication, syncing of Chart of Accounts, Contacts, Currencies, Expenses and receipts between Zoho and the app.
 
- # Laravel + React + Inertia Setup Guide
+ ## Laravel + React + Inertia Setup Guide
  This guide will help you set up and run the Laravel application with React, Inertia, and Zoho API integration. Follow these steps to get your environment ready and ensure the coding process is set up correctly.
 
 ## Prerequisites
