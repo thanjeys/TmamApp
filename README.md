@@ -12,7 +12,14 @@ Before setting up the project, make sure you have the following software install
 - **MySQL Version**: 8+ or (MariaDB 11+)
 - **Composer Version**: 2.2+ (latest recommended)
 - **Node.js Version**: 18.x+ (required for frontend asset compilation)
-- **NPM Version**: 9.x+ (latest recommended for Node.js 18.x)
+- **NPM Version**: 10.x+ (latest recommended for Node.js 18.x)
 - **Apache Version**: 2.4+ (or an alternative web server like Nginx)
 
+## Environmental Setup
+### 1. Clone the Repository
+Clone the repository to your local machine:
+```bash
+git clone https://github.com/thanjeys/TmamApp.git
+cd TmamApp
 
+ 
