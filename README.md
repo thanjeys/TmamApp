@@ -20,6 +20,7 @@ Before setting up the project, make sure you have the following software install
 ```bash
 git clone https://github.com/thanjeys/TmamApp.git
 cd TmamApp
+`
 ### Set Up Laravel (Backend) - Install PHP dependencies using Composer:
 ```bash
 composer install
