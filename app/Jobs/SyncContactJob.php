@@ -17,82 +17,82 @@ use Illuminate\Support\Facades\Log;
 
 class SyncContactJob implements ShouldQueue
 {
-	use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-	public $tries = 3; // Maximum retry attempts
+    public $tries = 3; // Maximum retry attempts
 
-	public $timeout = 120; // Timeout in seconds
+    public $timeout = 120; // Timeout in seconds
 
-	private $page;
+    private $page;
 
-	private $logId;
+    private $logId;
 
-	private $accessToken;
+    private $accessToken;
 
-	private $organizationId;
+    private $organizationId;
 
-	/**
-	 * Create a new job instance.
-	 */
-	public function __construct($page, $logId, $accessToken, $organizationId)
-	{
-		$this->page = $page;
-		$this->logId = $logId;
-		$this->accessToken = $accessToken;
-		$this->organizationId = $organizationId;
-	}
+    /**
+     * Create a new job instance.
+     */
+    public function __construct($page, $logId, $accessToken, $organizationId)
+    {
+        $this->page = $page;
+        $this->logId = $logId;
+        $this->accessToken = $accessToken;
+        $this->organizationId = $organizationId;
+    }
 
-	/**
-	 * Execute the job.
-	 */
-	public function handle(ZohoService $zohoService, ContactService $contactService, SyncLogService $syncLogService): void
-	{
-		try {
+    /**
+     * Execute the job.
+     */
+    public function handle(ZohoService $zohoService, ContactService $contactService, SyncLogService $syncLogService): void
+    {
+        try {
 
-			if (! $this->accessToken) {
-				$syncLogService->handleSyncFailure('Access Token Expired', $this->logId);
+            if (! $this->accessToken) {
+                $syncLogService->handleSyncFailure('Access Token Expired', $this->logId);
 
-				return;
-			}
+                return;
+            }
 
-			$lastContactModifiedTimeTable = $contactService->getLastModifiedTime();
+            $lastContactModifiedTimeTable = $contactService->getLastModifiedTime();
 
-			$contacts = $zohoService->fetchContacts($this->page, $this->accessToken, $this->organizationId);
-			if (empty($contacts)) {
-				// Log::info('no contact' . json_encode($contacts));
-				$syncLogService->updateSyncLogCompleted($this->logId, 'completed');
+            $contacts = $zohoService->fetchContacts($this->page, $this->accessToken, $this->organizationId);
+            if (empty($contacts)) {
+                // Log::info('no contact' . json_encode($contacts));
+                $syncLogService->updateSyncLogCompleted($this->logId, 'completed');
 
-				return;
-			}
+                return;
+            }
 
-			// Update or Insert based lastModified Time
-			$lastModifiedTimeAPI = end($contacts)['last_modified_time'];
-			if ($lastModifiedTimeAPI >= $lastContactModifiedTimeTable) {
+            // Update or Insert based lastModified Time
+            $lastModifiedTimeAPI = end($contacts)['last_modified_time'];
+            if ($lastModifiedTimeAPI >= $lastContactModifiedTimeTable) {
 
-				DB::transaction(function () use ($contacts, $contactService, $syncLogService) {
-					$contactService->upsertContacts($contacts, $this->organizationId);
-					$syncLogService->updateLogRecords($this->logId, count($contacts));
-				});
-			}
+                DB::transaction(function () use ($contacts, $contactService, $syncLogService) {
+                    $contactService->upsertContacts($contacts, $this->organizationId);
+                    $syncLogService->updateLogRecords($this->logId, count($contacts));
+                });
+            }
 
-			SyncContactJob::dispatch($this->page + 1, $this->logId, $this->accessToken, $this->organizationId);
-		} catch (Exception $e) {
-			// Handle failure and update status to 'failed'
-			Log::error('SyncContactJob failed', [
-				'page' => $this->page,
-				'organizationId' => $this->organizationId,
-				'error' => $e->getMessage(),
-			]);
-			$syncLogService->handleSyncFailure($e->getMessage(), $this->logId);
-		}
-	}
+            SyncContactJob::dispatch($this->page + 1, $this->logId, $this->accessToken, $this->organizationId);
+        } catch (Exception $e) {
+            // Handle failure and update status to 'failed'
+            Log::error('SyncContactJob failed', [
+                'page' => $this->page,
+                'organizationId' => $this->organizationId,
+                'error' => $e->getMessage(),
+            ]);
+            $syncLogService->handleSyncFailure($e->getMessage(), $this->logId);
+        }
+    }
 
-	// private function handleSyncFailure(Exception $e): void
-	// {
-	// 	SyncLog::find($this->logId)->update([
-	// 		'status' => 'failed',
-	// 		'error_message' => $e->getMessage(),
-	// 		'completed_at' => now()
-	// 	]);
-	// }
+    // private function handleSyncFailure(Exception $e): void
+    // {
+    // 	SyncLog::find($this->logId)->update([
+    // 		'status' => 'failed',
+    // 		'error_message' => $e->getMessage(),
+    // 		'completed_at' => now()
+    // 	]);
+    // }
 }

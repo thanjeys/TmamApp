@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
-			$table->bigInteger('organization_id');
+            $table->bigInteger('organization_id');
             $table->string('contact_id')->unique();
             $table->string('contact_name');
             $table->string('company_name')->nullable();

@@ -99,17 +99,15 @@ class ExpenseService
 		return Expense::select('account_name')
 			->distinct()
 			->orderBy('account_name')
-			->get()
 			->pluck('account_name')
 			->toArray();
 	}
 
 	public function getPaidAccountNames(): array
 	{
-		return Expense::select('paid_through_account_name')
+		return Expense::query()
 			->distinct()
 			->orderBy('paid_through_account_name')
-			->get()
 			->pluck('paid_through_account_name')
 			->toArray();
 	}

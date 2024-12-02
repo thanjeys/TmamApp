@@ -11,94 +11,94 @@ use Tests\TestCase;
 
 class OrganizationTest extends TestCase
 {
-	use RefreshDatabase;
+    use RefreshDatabase;
 
-	protected $mockApiResponse;
+    protected $mockApiResponse;
 
-	protected $mockApiResOrganization;
+    protected $mockApiResOrganization;
 
-	protected $user;
+    protected $user;
 
-	protected function setUp(): void
-	{
-		parent::setUp();
+    protected function setUp(): void
+    {
+        parent::setUp();
 
-		$this->user = $this->createUser();
+        $this->user = $this->createUser();
 
-		$this->mockApiResponse = json_decode(file_get_contents(base_path('tests/data/organizations_mock.json')), true);
+        $this->mockApiResponse = json_decode(file_get_contents(base_path('tests/data/organizations_mock.json')), true);
 
-		$this->mockApiResOrganization = $this->mockApiResponse['organizations'];
-	}
+        $this->mockApiResOrganization = $this->mockApiResponse['organizations'];
+    }
 
-	public function test_public_user_redirect_login_page()
-	{
-		$response = $this->get(route('organizations'));
+    public function test_public_user_redirect_login_page()
+    {
+        $response = $this->get(route('organizations'));
 
-		$response->assertRedirect('login');
-	}
+        $response->assertRedirect('login');
+    }
 
-	public function test_can_view_organizations_page()
-	{
-		$user = User::factory()->create();
+    public function test_can_view_organizations_page()
+    {
+        $user = User::factory()->create();
 
-		Organization::factory(3)->create();
+        Organization::factory(3)->create();
 
-		$response = $this->actingAs($user)->get(route('organizations'));
+        $response = $this->actingAs($user)->get(route('organizations'));
 
-		$response->assertStatus(200);
+        $response->assertStatus(200);
 
-		$response->assertInertia(
-			fn($page) => $page
-				->component('Organization')
-				->has('organizations')
-				->has('formatted_last_synced_time')
-		);
-	}
+        $response->assertInertia(
+            fn ($page) => $page
+                ->component('Organization')
+                ->has('organizations')
+                ->has('formatted_last_synced_time')
+        );
+    }
 
-	public function test_sync_organization_success()
-	{
-		// Arrange - MockZoho Service
-		$zohoService = Mockery::mock(ZohoService::class);
-		$zohoService->shouldReceive('fetchOrganizations')
-			->once()
-			->andReturn($this->mockApiResOrganization);
+    public function test_sync_organization_success()
+    {
+        // Arrange - MockZoho Service
+        $zohoService = Mockery::mock(ZohoService::class);
+        $zohoService->shouldReceive('fetchOrganizations')
+            ->once()
+            ->andReturn($this->mockApiResOrganization);
 
-		$this->app->instance(ZohoService::class, $zohoService);
+        $this->app->instance(ZohoService::class, $zohoService);
 
-		// Action
-		$response = $this->actingAs($this->user)->post(route('sync.orgs'));
+        // Action
+        $response = $this->actingAs($this->user)->post(route('sync.orgs'));
 
-		// Assert
-		$response->assertRedirect();
-		$response->assertSessionHas('message', __('ORG_SYNC_SUCCESS'));
+        // Assert
+        $response->assertRedirect();
+        $response->assertSessionHas('message', __('ORG_SYNC_SUCCESS'));
 
-		$this->assertDatabaseHas('organizations', [
-			'organization_id' => $this->mockApiResOrganization[0]['organization_id'],
-			'name' => $this->mockApiResOrganization[0]['name'],
-			'contact_name' => $this->mockApiResOrganization[0]['contact_name'],
-		]);
+        $this->assertDatabaseHas('organizations', [
+            'organization_id' => $this->mockApiResOrganization[0]['organization_id'],
+            'name' => $this->mockApiResOrganization[0]['name'],
+            'contact_name' => $this->mockApiResOrganization[0]['contact_name'],
+        ]);
 
-		$this->assertDatabaseCount('organizations', count($this->mockApiResOrganization));
-	}
+        $this->assertDatabaseCount('organizations', count($this->mockApiResOrganization));
+    }
 
-	public function test_sync_organization_exception_fetch_organization()
-	{
-		// Arrange - MockZoho Service
-		$zohoService = Mockery::mock(ZohoService::class);
-		$zohoService->shouldReceive('fetchOrganizations')
-			->once()
-			->andThrow(new \Exception('API error: Invalid response'));
+    public function test_sync_organization_exception_fetch_organization()
+    {
+        // Arrange - MockZoho Service
+        $zohoService = Mockery::mock(ZohoService::class);
+        $zohoService->shouldReceive('fetchOrganizations')
+            ->once()
+            ->andThrow(new \Exception('API error: Invalid response'));
 
-		$this->app->instance(ZohoService::class, $zohoService);
+        $this->app->instance(ZohoService::class, $zohoService);
 
-		// Action
-		$response = $this->actingAs($this->user)->post(route('sync.orgs'));
+        // Action
+        $response = $this->actingAs($this->user)->post(route('sync.orgs'));
 
-		$this->assertDatabaseCount('organizations', 0);
-	}
+        $this->assertDatabaseCount('organizations', 0);
+    }
 
-	private function createUser()
-	{
-		return User::factory()->create();
-	}
+    private function createUser()
+    {
+        return User::factory()->create();
+    }
 }

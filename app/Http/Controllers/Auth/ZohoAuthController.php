@@ -13,48 +13,48 @@ use Laravel\Socialite\Facades\Socialite;
 
 class ZohoAuthController extends Controller
 {
-	public function redirectToZoho(): RedirectResponse
-	{
-		return Socialite::driver('zoho')->withScopes(['ZohoBooks.fullaccess.all'])->redirect();
-	}
+    public function redirectToZoho(): RedirectResponse
+    {
+        return Socialite::driver('zoho')->withScopes(['ZohoBooks.fullaccess.all'])->redirect();
+    }
 
-	public function handleZohoCallback(): RedirectResponse
-	{
+    public function handleZohoCallback(): RedirectResponse
+    {
 
-		try {
+        try {
 
-			$zohoUser = Socialite::driver('zoho')->user();
+            $zohoUser = Socialite::driver('zoho')->user();
 
-			$user = User::firstOrCreate(
-				['provider_id' => $zohoUser->id, 'auth_provider' => 'zoho'],
-				[
-					'name' => $zohoUser->name,
-					'email' => $zohoUser->email,
-				]
-			);
+            $user = User::firstOrCreate(
+                ['provider_id' => $zohoUser->id, 'auth_provider' => 'zoho'],
+                [
+                    'name' => $zohoUser->name,
+                    'email' => $zohoUser->email,
+                ]
+            );
 
-			$this->updateUserTokens($user->id, 'zoho', $zohoUser);
+            $this->updateUserTokens($user->id, 'zoho', $zohoUser);
 
-			Auth::login($user);
+            Auth::login($user);
 
-			return redirect('/dashboard');
-		} catch (Exception $e) {
+            return redirect('/dashboard');
+        } catch (Exception $e) {
 
-			Log::info('Zoho authentication failed' . $e->getMessage());
+            Log::info('Zoho authentication failed'.$e->getMessage());
 
-			return redirect('/login')->with('error', 'Zoho authentication failed');
-		}
-	}
+            return redirect('/login')->with('error', 'Zoho authentication failed');
+        }
+    }
 
-	protected function updateUserTokens($userId, $provider, $zohoUser)
-	{
-		UserToken::updateOrCreate(
-			['user_id' => $userId, 'provider' => $provider],
-			[
-				'access_token' => $zohoUser->token,
-				'refresh_token' => $zohoUser->refreshToken,
-				'expires_at' => now()->addSeconds($zohoUser->expiresIn),
-			]
-		);
-	}
+    protected function updateUserTokens($userId, $provider, $zohoUser)
+    {
+        UserToken::updateOrCreate(
+            ['user_id' => $userId, 'provider' => $provider],
+            [
+                'access_token' => $zohoUser->token,
+                'refresh_token' => $zohoUser->refreshToken,
+                'expires_at' => now()->addSeconds($zohoUser->expiresIn),
+            ]
+        );
+    }
 }

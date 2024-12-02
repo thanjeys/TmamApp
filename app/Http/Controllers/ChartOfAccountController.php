@@ -16,52 +16,53 @@ use Inertia\Response;
 
 class ChartOfAccountController extends Controller
 {
-	use HandlesSessionLogout;
+    use HandlesSessionLogout;
 
-	protected $zohoService;
+    protected $zohoService;
 
-	protected $chartOfAccountService;
+    protected $chartOfAccountService;
 
-	public function __construct(ZohoService $zohoService, ChartOfAccountService $chartOfAccountService)
-	{
-		$this->zohoService = $zohoService;
-		$this->chartOfAccountService = $chartOfAccountService;
-	}
+    public function __construct(ZohoService $zohoService, ChartOfAccountService $chartOfAccountService)
+    {
+        $this->zohoService = $zohoService;
+        $this->chartOfAccountService = $chartOfAccountService;
+    }
 
-	public function index(Request $request): Response
-	{
-		$query = ChartOfAccount::query();
+    public function index(Request $request): Response
+    {
+        $query = ChartOfAccount::query();
 
-		if ($request->has('search')) {
-			$query->where(function ($query) use ($request) {
-				$query->where('account_name', 'LIKE', '%' . $request->search . '%')
-					->orWhere('account_type', 'LIKE', '%' . $request->search . '%');
-			});
-		}
+        if ($request->has('search')) {
+            $query->where(function ($query) use ($request) {
+                $query->where('account_name', 'LIKE', '%'.$request->search.'%')
+                    ->orWhere('account_type', 'LIKE', '%'.$request->search.'%');
+            });
+        }
 
-		$accounts = ChartOfAccountResource::collection($query->paginate(10));
+        $accounts = ChartOfAccountResource::collection($query->paginate(10));
 
-		$formatted_last_synced_time = $this->chartOfAccountService->getLastSyncedTime();
+        $formatted_last_synced_time = $this->chartOfAccountService->getLastSyncedTime();
 
-		return Inertia::render('ChartOfAccount', compact('accounts', 'formatted_last_synced_time'));
-	}
+        return Inertia::render('ChartOfAccount', compact('accounts', 'formatted_last_synced_time'));
+    }
 
-	public function syncChartOfAccounts(): RedirectResponse
-	{
-		try {
+    public function syncChartOfAccounts(): RedirectResponse
+    {
+        try {
 
-			$accounts = $this->zohoService->fetchChartOfAccounts();
+            $accounts = $this->zohoService->fetchChartOfAccounts();
 
-			$organizationId = $this->zohoService->getOrganizationIdForUser();
+            $organizationId = $this->zohoService->getOrganizationIdForUser();
 
-			$this->chartOfAccountService->upsertChartOfAccounts($accounts, $organizationId);
+            $this->chartOfAccountService->upsertChartOfAccounts($accounts, $organizationId);
 
-			return back()->with(['message' => __('CHARTOFACCOUNT_SYNC_SUCCESS')]);
-		} catch (Exception $e) {
+            return back()->with(['message' => __('CHARTOFACCOUNT_SYNC_SUCCESS')]);
+        } catch (Exception $e) {
 
-			Log::error('ChartOfAccount sync failed: ' . $e->getMessage());
-			return $this->handleTokenExpired($e->getMessage())
-				?? back()->with('error', __('CHARTOFACCOUNT_SYNC_ERROR'));
-		}
-	}
+            Log::error('ChartOfAccount sync failed: '.$e->getMessage());
+
+            return $this->handleTokenExpired($e->getMessage())
+                ?? back()->with('error', __('CHARTOFACCOUNT_SYNC_ERROR'));
+        }
+    }
 }
