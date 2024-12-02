@@ -11,8 +11,8 @@ Before setting up the project, make sure you have the following software install
 - **PHP Version**: PHP 8.1+ (required for Laravel 10)
 - **MySQL Version**: 8+ or (MariaDB 11+)
 - **Composer Version**: 2.2+ (latest recommended)
-- **Node.js Version**: 18.x+ (required for frontend asset compilation)
-- **NPM Version**: 10.x+ (latest recommended for Node.js 18.x)
+- **Node.js Version**: 20.x+ (required for frontend asset compilation)
+- **NPM Version**: 10.x+ (latest recommended )
 - **Apache Version**: 2.4+ (or an alternative web server like Nginx)
 
 ## Environmental Setup
@@ -24,6 +24,10 @@ cd TmamApp
 Set Up Laravel (Backend) - Install PHP dependencies using Composer:
 ```bash
 composer install
+```
+Set Up React (Frontend) - Install JavaScript dependencies using npm
+```bash
+npm install
 ```
 Copy the .env.example file to .env:
 ```bash
@@ -46,10 +50,7 @@ Migrate the Database
 ```bash
 php artisan migrate
 ```
-Set Up React (Frontend) - Install JavaScript dependencies using npm
-```bash
-npm install
-```
+
 ## Set Up Zoho API Integration
 https://www.zoho.com/accounts/protocol/oauth-setup.html
 Create OAuth with ServerBased Application
