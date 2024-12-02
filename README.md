@@ -16,20 +16,20 @@ Before setting up the project, make sure you have the following software install
 - **Apache Version**: 2.4+ (or an alternative web server like Nginx)
 
 ## Environmental Setup
-### Clone the repository to your local machine:
+Clone the repository to your local machine:
 ```bash
 git clone https://github.com/thanjeys/TmamApp.git
 cd TmamApp
 ```
-### Set Up Laravel (Backend) - Install PHP dependencies using Composer:
+Set Up Laravel (Backend) - Install PHP dependencies using Composer:
 ```bash
 composer install
 ```
-### Copy the .env.example file to .env:
+Copy the .env.example file to .env:
 ```bash
 cp .env.example .env
 ```
-### Configure the environment settings in the .env file
+Configure the environment settings in the .env file
 ```bash
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -38,15 +38,15 @@ DB_DATABASE=zohosocialite
 DB_USERNAME=root
 DB_PASSWORD=
 ```
-### Generate the application key for Laravel
+Generate the application key for Laravel
 ```bash
 php artisan key:generate
 ```
-### Migrate the Database
+Migrate the Database
 ```bash
 php artisan migrate
 ```
-### Set Up React (Frontend) - Install JavaScript dependencies using npm
+Set Up React (Frontend) - Install JavaScript dependencies using npm
 ```bash
 npm install
 ```
