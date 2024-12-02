@@ -29,7 +29,7 @@ composer install
 ```bash
 cp .env.example .env
 ```
-###Configure the environment settings in the .env file
+### Configure the environment settings in the .env file
 ```bash
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -38,19 +38,19 @@ DB_DATABASE=zohosocialite
 DB_USERNAME=root
 DB_PASSWORD=
 ```
-###Generate the application key for Laravel
+### Generate the application key for Laravel
 ```bash
 php artisan key:generate
 ```
-###Migrate the Database
+### Migrate the Database
 ```bash
 php artisan migrate
 ```
-###Set Up React (Frontend) - Install JavaScript dependencies using npm
+### Set Up React (Frontend) - Install JavaScript dependencies using npm
 ```bash
 npm install
 ```
-##Set Up Zoho API Integration
+## Set Up Zoho API Integration
 https://www.zoho.com/accounts/protocol/oauth-setup.html
 Create OAuth with ServerBased Application
 Configure Zoho API credentials in the .env file (client ID, client secret, Callback and OAuth tokens).
@@ -63,7 +63,7 @@ ZOHO_REDIRECT_URI="http://127.0.0.1:8000/auth/zoho/callback"
 ZOHO_API_ENDPOINT="https://www.zohoapis.com/books/v3/"
 QUEUE_CONNECTION="database"
 ```
-##Test the Application
+## Test the Application
 Run the Laravel Development Server
 ```bash
 php artisan serve
