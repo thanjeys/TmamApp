@@ -16,10 +16,12 @@ Before setting up the project, make sure you have the following software install
 - **Apache Version**: 2.4+ (or an alternative web server like Nginx)
 
 ## Environmental Setup
-### 1. Clone the Repository
+### Clone the Repository
 Clone the repository to your local machine:
 ```bash
 git clone https://github.com/thanjeys/TmamApp.git
 cd TmamApp
+### Copy the .env.example file to .env:
+
 
  
