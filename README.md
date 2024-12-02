@@ -34,8 +34,8 @@ Configure the environment settings in the .env file
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=zohosocialite
-DB_USERNAME=root
+DB_DATABASE=XXXXX
+DB_USERNAME=XXXX
 DB_PASSWORD=
 ```
 Generate the application key for Laravel
@@ -63,6 +63,7 @@ ZOHO_REDIRECT_URI="http://127.0.0.1:8000/auth/zoho/callback"
 ZOHO_API_ENDPOINT="https://www.zohoapis.com/books/v3/"
 QUEUE_CONNECTION="database"
 ```
+
 ## Test the Application
 Run the Laravel Development Server
 ```bash
