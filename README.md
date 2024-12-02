@@ -33,7 +33,7 @@ Copy the .env.example file to .env:
 ```bash
 cp .env.example .env
 ```
-Configure the environment settings in the .env file
+Configure the database settings in the .env file
 ```bash
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -64,16 +64,10 @@ ZOHO_REDIRECT_URI="http://127.0.0.1:8000/auth/zoho/callback"
 ```
 
 ## Test the Application
-Run the Laravel Development Server
+Run the Laravel, Vite Server, Run Queue Worker (while Expense & Contacts Syncing)
 ```bash
 php artisan serve
-```
-Run the Laravel Development Server
-```bash
 npm run dev
-```
-Run Queue Worker (while Expense & Contacts Syncing)
-```bash
 php artisan queue:work
 ```
 
