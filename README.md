@@ -56,6 +56,10 @@ https://www.zoho.com/accounts/protocol/oauth-setup.html
 Create OAuth with ServerBased Application
 Configure Zoho API credentials in the .env file (client ID, client secret, Callback and OAuth tokens).
 Ensure that the Zoho API SDK (or Guzzle HTTP client) is set up correctly in the backend to interact with Zoho services.
+
+### Note URL Config, Ex: 
+HomePageURL: http://127.0.0.1:8000, RedirectURL Should be like (http://127.0.0.1:8000/auth/zoho/callback/)
+
 .env file
 ```bash
 ZOHO_CLIENT_ID="1000.R9XAGNKGVXXXXXXX"
