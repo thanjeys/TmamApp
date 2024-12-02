@@ -61,8 +61,6 @@ Ensure that the Zoho API SDK (or Guzzle HTTP client) is set up correctly in the 
 ZOHO_CLIENT_ID="1000.R9XAGNKGVXXXXXXX"
 ZOHO_CLIENT_SECRET="XXXXXXXXX5071307579019"
 ZOHO_REDIRECT_URI="http://127.0.0.1:8000/auth/zoho/callback"
-ZOHO_API_ENDPOINT="https://www.zohoapis.com/books/v3/"
-QUEUE_CONNECTION="database"
 ```
 
 ## Test the Application
